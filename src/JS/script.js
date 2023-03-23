@@ -1,66 +1,35 @@
-// function to check recommended weight ,over weight,under weight
+function checkExceptions(age, weight) {
+  if (age <= 0 || weight <= 0 || weight > 150) {
+    return true;
+  }
+  return false;
+}
 function checkWeight() {
-  var age = document.getElementById("age").value; //get age from user.
-  var weight = document.getElementById("weight").value; //get weight from user.
-  if (age >= 5 && age <= 7 && weight >= 15 && weight <= 20) {
-    // check condition
-    document.getElementById("p").innerHTML = "recommended weight"; //print message
+  const age = parseInt(document.getElementById("age").value);
+  const weight = parseInt(document.getElementById("weight").value);
+  let message = "Enter valid age to check (5-20 yrs)";
+
+  const ageGroups = [
+    { minAge: 5, maxAge: 7, weightRange: [15, 20] },
+    { minAge: 8, maxAge: 10, weightRange: [21, 25] },
+    { minAge: 11, maxAge: 15, weightRange: [26, 30] },
+    { minAge: 16, maxAge: 20, weightRange: [31, 40] },
+  ];
+  if (checkExceptions(age, weight)) {
+    message = "Please enter valid age and/or weight";
   } else {
-    if (age >= 5 && age <= 7 && weight < 15) {
-      document.getElementById("p").innerHTML = " You are under weight"; //print message
-    } else {
-      if (age >= 5 && age <= 7 && weight > 15) {
-        document.getElementById("p").innerHTML = " You are over weight"; //print message
-      } else {
-        if (age >= 8 && age <= 10 && weight >= 21 && weight <= 25) {
-          document.getElementById("p").innerHTML = "recommended weight"; //print message
+    for (let i = 0; i < ageGroups.length; i++) {
+      if (age >= ageGroups[i].minAge && age <= ageGroups[i].maxAge) {
+        if (weight >= ageGroups[i].weightRange[0] && weight <= ageGroups[i].weightRange[1]) {
+          message = "You're fit";
+        } else if (weight < ageGroups[i].weightRange[0]) {
+          message = "You are underweight";
         } else {
-          if (age >= 8 && age <= 10 && weight < 21) {
-            document.getElementById("p").innerHTML = " You are under weight"; //print message
-          } else {
-            if (age >= 8 && age <= 10 && weight > 25) {
-              document.getElementById("p").innerHTML = " You are over weight"; //print message
-            } else {
-              if (age >= 11 && age <= 15 && weight >= 26 && weight <= 30) {
-                document.getElementById("p").innerHTML = "recommended weight"; //print message
-              } else {
-                if (age >= 11 && age <= 15 && weight < 26) {
-                  document.getElementById("p").innerHTML =
-                    " You are under weight"; //print message
-                } else {
-                  if (age >= 11 && age <= 15 && weight > 26) {
-                    document.getElementById("p").innerHTML =
-                      " You are over weight"; //print message
-                  } else {
-                    if (
-                      age >= 16 &&
-                      age <= 20 &&
-                      weight >= 31 &&
-                      weight <= 40
-                    ) {
-                      document.getElementById("p").innerHTML =
-                        "recommended weight"; //print message
-                    } else {
-                      if (age >= 16 && age <= 20 && weight < 31) {
-                        document.getElementById("p").innerHTML =
-                          " You are under weight"; //print message
-                      } else {
-                        if (age >= 16 && age <= 20 && weight > 31) {
-                          document.getElementById("p").innerHTML =
-                            " You are over weight"; //print message
-                        } else {
-                          document.getElementById("p").innerHTML =
-                            "Enter valid age to check"; //print message
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          message = "You are overweight";
         }
+        break;
       }
     }
   }
+  document.getElementById("p").innerHTML = message;
 }
